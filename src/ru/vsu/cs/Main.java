@@ -17,7 +17,7 @@ public class Main {
         if (line != null) {
             HashSet<String> emails = getEmails(line);
 
-            if (isEmailsInLine(emails)) {
+            if (emails.size() != 0) {
                 printEmails(emails);
             } else {
                 printNoEmails();
@@ -50,10 +50,6 @@ public class Main {
             System.out.println("File not found");
             return null;
         }
-    }
-
-    private static boolean isEmailsInLine(HashSet<String> emails) {
-        return emails.size() == 0;
     }
 
     private static HashSet<String> getEmails(String line) {
