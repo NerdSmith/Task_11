@@ -1,21 +1,21 @@
 package ru.vsu.cs;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        String line;
+        String text;
         if (args.length == 0) {
-            line = readLine();
+            text = readLine();
         } else {
-            line = readFile(args[0]);
+            FileReader fileReader = new FileReader(args[0]);
+            text = fileReader.readAll();
         }
 
-        if (line != null) {
-            HashSet<String> emails = getEmails(line);
+        if (text != null) {
+            TextParser textParser = new TextParser(text);
+            HashSet<String> emails = textParser.getEmails();
 
             if (emails.size() != 0) {
                 printEmails(emails);
@@ -40,82 +40,5 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter text: ");
         return scanner.nextLine();
-    }
-
-    private static String readFile(String fileName) {
-        try {
-            Scanner scanner = new Scanner(new File(fileName));
-            return scanner.nextLine();
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
-            return null;
-        }
-    }
-
-    private static HashSet<String> getEmails(String line) {
-        HashSet<String> emails = new HashSet<>();
-        HashSet<String> words = splitByWords(line);
-        for (String word : words) {
-            if (isEmail(word)) {
-                emails.add(word);
-            }
-        }
-        return emails;
-    }
-
-    private static HashSet<String> splitByWords(String line) {
-        StringBuilder curWord = new StringBuilder();
-        HashSet<String> words = new HashSet<>();
-        char[] charsLine = line.toCharArray();
-        char lastChar = ' ';
-        for (char ch : charsLine) {
-            if (isValidCharForEmail(ch)) {
-                curWord.append(ch);
-                if (ch == '.' && lastChar == ' ') {
-                    curWord.deleteCharAt(curWord.length() - 1);
-                }
-            } else if (ch == ' ' && lastChar == '.' && curWord.length() > 0) {
-                curWord.deleteCharAt(curWord.length() - 1);
-            } else {
-                words.add(curWord.toString());
-                curWord = new StringBuilder();
-            }
-            lastChar = ch;
-        }
-        words.add(curWord.toString());
-        return words;
-    }
-
-    private static boolean isValidCharForEmail(char ch) {
-        return (ch >= '0' && ch <= '9' || ch >= 'A' && ch <= 'Z' || ch >= 'a' && ch <= 'z' || ch == '-' || ch == '_'
-                || ch == '@' || ch == '.');
-    }
-
-    private static boolean isEmail(String word) {
-        char[] chars = word.toCharArray();
-        int lenOfLocal = 0;
-        int lenOfDomain = 0;
-        char lastChar = ' ';
-        boolean isWordWithAt = false;
-        for (char ch : chars) {
-            if (ch == '@') {
-                if (lastChar == '.') {
-                    return false;
-                }
-                if (isWordWithAt) {
-                    return false;
-                } else {
-                    isWordWithAt = true;
-                }
-            } else if (ch == '.' && lastChar == '@') {
-                return false;
-            } else if (!isWordWithAt) {
-                lenOfLocal++;
-            } else {
-                lenOfDomain++;
-            }
-            lastChar = ch;
-        }
-        return lenOfLocal > 0 && lenOfDomain > 0 && isWordWithAt;
     }
 }
