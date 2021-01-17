@@ -23,7 +23,6 @@ public class Main {
         else {
             printNoEmails();
         }
-
     }
 
     private static void printEmails(HashSet<String> emails) {
