@@ -10,7 +10,8 @@ public class FileReader {
     public FileReader(String path) {
         try {
             this.file = new Scanner(new File(path));
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }

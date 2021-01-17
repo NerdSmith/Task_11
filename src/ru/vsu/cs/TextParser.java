@@ -31,9 +31,11 @@ public class TextParser {
                 if (ch == '.' && lastChar == ' ') {
                     curWord.deleteCharAt(curWord.length() - 1);
                 }
-            } else if (ch == ' ' && lastChar == '.' && curWord.length() > 0) {
+            }
+            else if (ch == ' ' && lastChar == '.' && curWord.length() > 0) {
                 curWord.deleteCharAt(curWord.length() - 1);
-            } else {
+            }
+            else {
                 words.add(curWord.toString());
                 curWord = new StringBuilder();
             }
@@ -61,14 +63,18 @@ public class TextParser {
                 }
                 if (isWordWithAt) {
                     return false;
-                } else {
+                }
+                else {
                     isWordWithAt = true;
                 }
-            } else if (ch == '.' && lastChar == '@') {
+            }
+            else if (ch == '.' && lastChar == '@') {
                 return false;
-            } else if (!isWordWithAt) {
+            }
+            else if (!isWordWithAt) {
                 lenOfLocal++;
-            } else {
+            }
+            else {
                 lenOfDomain++;
             }
             lastChar = ch;

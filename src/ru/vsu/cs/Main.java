@@ -8,21 +8,22 @@ public class Main {
         String text;
         if (args.length == 0) {
             text = readLine();
-        } else {
+        }
+        else {
             FileReader fileReader = new FileReader(args[0]);
             text = fileReader.readAll();
         }
 
-        if (text != null) {
-            TextParser textParser = new TextParser(text);
-            HashSet<String> emails = textParser.getEmails();
+        TextParser textParser = new TextParser(text);
+        HashSet<String> emails = textParser.getEmails();
 
-            if (emails.size() != 0) {
-                printEmails(emails);
-            } else {
-                printNoEmails();
-            }
+        if (emails.size() != 0) {
+            printEmails(emails);
         }
+        else {
+            printNoEmails();
+        }
+
     }
 
     private static void printEmails(HashSet<String> emails) {
